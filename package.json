@@ -1,0 +1,37 @@
+{
+  "name": "domain-scout-ai",
+  "version": "1.0.4",
+  "description": "Windows desktop app for bulk domain availability and premium-name discovery",
+  "main": "src/main.cjs",
+  "author": "Domain Scout AI",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron .",
+    "test": "node --test",
+    "dist": "electron-builder --win nsis"
+  },
+  "devDependencies": {
+    "electron": "^36.3.2",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "com.domainscout.desktop",
+    "productName": "Domain Scout AI",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "src/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": "nsis"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true
+    }
+  }
+}

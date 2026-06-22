@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; img-src 'self' data:;">
+  <title>Domain Scout AI</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="status.css">
+</head>
+<body>
+  <div class="ambient one"></div><div class="ambient two"></div>
+  <aside>
+    <div class="brand"><span class="brand-mark">D</span><div>Domain Scout<small>AI DOMAIN DISCOVERY</small></div></div>
+    <nav>
+      <button class="nav active" data-view="bulk"><span>⌕</span> Bulk domain search</button>
+      <button class="nav" data-view="premium"><span>✦</span> AI premium search</button>
+    </nav>
+    <div class="aside-note"><b>Live checks</b><p>Availability is verified through public RDAP registration data.</p><span class="live-dot"></span> Connected when online</div>
+    <div class="version">DOMAIN SCOUT v1.0</div>
+  </aside>
+  <main>
+    <header><div><span class="eyebrow">DOMAIN INTELLIGENCE</span><h1 id="page-title">Find your name everywhere.</h1><p id="page-copy">One word. Every worthwhile extension. No tab circus.</p></div><div class="status-pill"><span></span> RDAP live</div></header>
+
+    <section id="bulk-view" class="view active-view">
+      <div class="search-panel">
+        <label for="word">YOUR CORE NAME</label>
+        <div class="search-row"><div class="big-input"><span>www.</span><input id="word" placeholder="" autocomplete="off"></div><button id="scan" class="primary">Search all extensions <span>→</span></button></div>
+        <div class="hint">Enter only the main word — we’ll test <b id="tld-count">50</b> extensions at once.</div>
+        <details><summary>Choose extensions</summary><div id="tld-picker" class="chips"></div></details>
+      </div>
+    </section>
+
+    <section id="premium-view" class="view">
+      <div class="premium-grid">
+        <div class="search-panel">
+          <span class="eyebrow">GUIDED DISCOVERY</span><h2>Search by an idea</h2><p>Give us a keyword. The naming engine builds short, brandable variations and ranks them.</p>
+          <div class="stack"><input id="keyword" class="text-input" placeholder="e.g. fitness, finance, travel"><button id="premium-keyword" class="primary">✦ Search AI premium domains</button></div>
+        </div>
+        <div class="search-panel random-card">
+          <span class="eyebrow">SERENDIPITY MODE</span><h2>Surprise me</h2><p>Explore 100 clean, memorable names selected for brandability—not inflated resale listings.</p>
+          <button id="premium-random" class="secondary">Random premium search <span>↗</span></button>
+        </div>
+      </div>
+    </section>
+
+    <section id="results-section" class="results hidden">
+      <div class="results-head"><div><span class="eyebrow">RESULTS</span><h2 id="results-title">Domain availability</h2></div><div class="summary"><span><b id="available-count">0</b> likely available</span><span><b id="registered-count">0</b> registered</span></div></div>
+      <div class="toolbar">
+        <div class="segmented"><button class="filter active" data-filter="all">All</button><button class="filter" data-filter="likely_available">Likely available</button><button class="filter" data-filter="registered">Registered</button><button class="filter" data-filter="unknown">Unverified</button></div>
+        <div class="price-filter-note">Exact price filter requires a registrar API</div>
+        <select id="sort"><option value="score">Best score</option><option value="name">Name A–Z</option></select>
+        <button id="export" class="ghost">Export CSV</button>
+      </div>
+      <div id="progress" class="progress hidden"><div></div><p>Checking global registries… <span id="progress-note">This can take a moment.</span></p></div>
+      <div id="result-list" class="result-list"></div>
+      <div id="empty" class="empty hidden">No domains match these filters.</div>
+      <div id="pagination" class="pagination hidden"><button id="prev-page" class="ghost">← Previous 100</button><span>Page <b id="page-number">1</b></span><button id="next-page" class="secondary">Next 100 →</button></div>
+      <p class="disclaimer">Registered means confirmed by DNS or authoritative registry RDAP. Likely available is not a purchase guarantee: registries can reserve unregistered names or assign special premium prices. Exact domain-specific prices are intentionally not estimated—confirm them at the registrar.</p>
+    </section>
+  </main>
+  <script src="renderer.js"></script>
+</body>
+</html>
