@@ -5,3 +5,8 @@ release/
 *.log
 .DS_Store
 Thumbs.db
+
+.dev.vars*
+!.dev.vars.example
+.env*
+!.env.example
