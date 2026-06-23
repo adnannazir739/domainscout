@@ -15,9 +15,10 @@
     <nav>
       <button class="nav active" data-view="bulk"><span>⌕</span> Bulk domain search</button>
       <button class="nav" data-view="premium"><span>✦</span> AI premium search</button>
+      <button class="nav" data-view="help"><span>?</span> Help &amp; legal</button>
     </nav>
     <div class="aside-note"><b>Live checks</b><p>Availability is verified through public RDAP registration data.</p><span class="live-dot"></span> Connected when online</div>
-    <div class="version">DOMAIN SCOUT v1.0</div>
+    <div class="version">DOMAIN SCOUT <span id="app-version">LOADING</span></div>
   </aside>
   <main>
     <header><div><span class="eyebrow">DOMAIN INTELLIGENCE</span><h1 id="page-title">Find your name everywhere.</h1><p id="page-copy">One word. Every worthwhile extension. No tab circus.</p></div><div class="status-pill"><span></span> RDAP live</div></header>
@@ -42,6 +43,18 @@
           <button id="premium-random" class="secondary">Random premium search <span>↗</span></button>
         </div>
       </div>
+    </section>
+
+    <section id="help-view" class="view">
+      <div class="help-grid">
+        <article class="help-card help-featured"><span class="eyebrow">SUPPORT</span><h2>Need a hand?</h2><p>Installation questions, incorrect domain results, accessibility issues, or general product help.</p><button class="help-link primary" data-public-link="support">Open Help Center <span>→</span></button></article>
+        <article class="help-card"><span class="help-icon">↗</span><h3>Product website</h3><p>Features, release information, and official product details.</p><button class="text-link" data-public-link="website">Visit website →</button></article>
+        <article class="help-card"><span class="help-icon">@</span><h3>Contact us</h3><p>Email the Domain Scout AI support team.</p><button class="text-link" data-public-link="contact">contact@vortixvpn.com →</button></article>
+        <article class="help-card"><span class="help-icon">◈</span><h3>Privacy policy</h3><p>Learn what information is processed during domain searches.</p><button class="text-link" data-public-link="privacy">Read privacy policy →</button></article>
+        <article class="help-card"><span class="help-icon">§</span><h3>Terms of use</h3><p>Important limitations concerning availability, prices, and brandability signals.</p><button class="text-link" data-public-link="terms">Read terms →</button></article>
+        <article class="help-card"><span class="help-icon">◎</span><h3>Affiliate disclosure</h3><p>How registrar referrals support the development of this app.</p><button class="text-link" data-public-link="affiliate">Read disclosure →</button></article>
+      </div>
+      <div class="about-strip"><div><span class="brand-mark">D</span><div><b>Domain Scout AI</b><small>Windows domain discovery</small></div></div><p>Version <b id="about-version">—</b></p></div>
     </section>
 
     <section id="results-section" class="results hidden">

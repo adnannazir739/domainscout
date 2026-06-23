@@ -1,6 +1,6 @@
 {
   "name": "domain-scout-ai",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Windows desktop app for bulk domain availability and premium-name discovery",
   "main": "src/main.cjs",
   "author": "Domain Scout AI",

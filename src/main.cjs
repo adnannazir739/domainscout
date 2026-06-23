@@ -1,10 +1,63 @@
-const { app, BrowserWindow, ipcMain, shell } = require('electron');
+const { app, BrowserWindow, ipcMain, shell, Menu, dialog } = require('electron');
 const path = require('path');
 const { TLDS, normalizeLabel, isValidLabel, estimatePrice, scoreDomain, scoreReason, makePremiumCandidates } = require('./domain-engine.cjs');
 const { verifyDomain } = require('./availability.cjs');
 
 const MAX_CONCURRENCY = 10;
 const NAMECHEAP_AFFILIATE_BASE = 'https://namecheap.pxf.io/c/7430137/1632743/5618';
+const PUBLIC_LINKS = Object.freeze({
+  website: 'https://domainscout.vortixvpn.com/',
+  support: 'https://domainscout.vortixvpn.com/support',
+  privacy: 'https://domainscout.vortixvpn.com/privacy',
+  terms: 'https://domainscout.vortixvpn.com/terms',
+  affiliate: 'https://domainscout.vortixvpn.com/affiliate-disclosure',
+  contact: 'mailto:contact@vortixvpn.com?subject=Domain%20Scout%20AI%20support'
+});
+
+function isAllowedExternalUrl(rawUrl) {
+  try {
+    const url = new URL(rawUrl);
+    if (url.protocol === 'https:' && ['namecheap.com', 'www.namecheap.com', 'namecheap.pxf.io', 'domainscout.vortixvpn.com'].includes(url.hostname)) return true;
+    return url.protocol === 'mailto:' && url.pathname.toLowerCase() === 'contact@vortixvpn.com';
+  } catch { return false; }
+}
+
+function openTrustedUrl(url) {
+  if (!isAllowedExternalUrl(url)) throw new Error('Blocked unsafe link.');
+  return shell.openExternal(url);
+}
+
+function createApplicationMenu() {
+  const template = [
+    { label: 'File', submenu: [{ label: 'Exit', accelerator: 'Alt+F4', role: 'quit' }] },
+    { label: 'View', submenu: [
+      { label: 'Reload', accelerator: 'Ctrl+R', role: 'reload' },
+      { type: 'separator' },
+      { label: 'Actual Size', accelerator: 'Ctrl+0', role: 'resetZoom' },
+      { label: 'Zoom In', accelerator: 'Ctrl+Plus', role: 'zoomIn' },
+      { label: 'Zoom Out', accelerator: 'Ctrl+-', role: 'zoomOut' },
+      { type: 'separator' },
+      { label: 'Toggle Full Screen', accelerator: 'F11', role: 'togglefullscreen' }
+    ] },
+    { label: 'Help', submenu: [
+      { label: 'Help & Support', click: () => openTrustedUrl(PUBLIC_LINKS.support) },
+      { label: 'Visit Domain Scout Website', click: () => openTrustedUrl(PUBLIC_LINKS.website) },
+      { label: 'Contact Us', click: () => openTrustedUrl(PUBLIC_LINKS.contact) },
+      { type: 'separator' },
+      { label: 'Privacy Policy', click: () => openTrustedUrl(PUBLIC_LINKS.privacy) },
+      { label: 'Terms of Use', click: () => openTrustedUrl(PUBLIC_LINKS.terms) },
+      { label: 'Affiliate Disclosure', click: () => openTrustedUrl(PUBLIC_LINKS.affiliate) },
+      { type: 'separator' },
+      { label: 'About Domain Scout AI', click: () => dialog.showMessageBox({
+        type: 'info', title: 'About Domain Scout AI',
+        message: `Domain Scout AI ${app.getVersion()}`,
+        detail: 'Domain discovery for Windows.\n\nWebsite: domainscout.vortixvpn.com\nContact: contact@vortixvpn.com',
+        buttons: ['OK'], noLink: true
+      }) }
+    ] }
+  ];
+  Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+}
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -49,7 +102,9 @@ async function checkDomain(item) {
 }
 
 app.whenReady().then(() => {
+  createApplicationMenu();
   ipcMain.handle('get-tlds', () => TLDS);
+  ipcMain.handle('get-app-info', () => ({ version: app.getVersion(), links: PUBLIC_LINKS }));
   ipcMain.handle('scan-word', async (_event, word, selectedTlds) => {
     const label = normalizeLabel(word);
     if (!isValidLabel(label)) throw new Error('Enter a valid domain word (letters, numbers, or hyphens).');
@@ -63,8 +118,7 @@ app.whenReady().then(() => {
     return checked.filter(x => x.status !== 'registered');
   });
   ipcMain.handle('open-external', (_event, url) => {
-    if (/^https:\/\/(www\.)?namecheap\.com\//i.test(url) || /^https:\/\/namecheap\.pxf\.io\//i.test(url)) return shell.openExternal(url);
-    throw new Error('Blocked unsafe link.');
+    return openTrustedUrl(url);
   });
   createWindow();
   app.on('activate', () => { if (BrowserWindow.getAllWindows().length === 0) createWindow(); });

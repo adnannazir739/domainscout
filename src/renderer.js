@@ -1,4 +1,4 @@
-const state = { all: [], filter: 'all', page: 0, premiumMode: null, premiumKeyword: '' };
+const state = { all: [], filter: 'all', page: 0, premiumMode: null, premiumKeyword: '', publicLinks: {} };
 const $ = id => document.getElementById(id);
 
 function toast(message) {
@@ -8,7 +8,10 @@ function toast(message) {
 }
 
 async function init() {
-  const tlds = await window.domainAPI.getTlds();
+  const [tlds, appInfo] = await Promise.all([window.domainAPI.getTlds(), window.domainAPI.getAppInfo()]);
+  state.publicLinks = appInfo.links;
+  $('app-version').textContent = `v${appInfo.version}`;
+  $('about-version').textContent = appInfo.version;
   $('tld-count').textContent = tlds.length;
   $('tld-picker').innerHTML = tlds.map(x => `<label class="chip"><input type="checkbox" value="${x.tld}" checked> .${x.tld}</label>`).join('');
 }
@@ -16,9 +19,13 @@ async function init() {
 document.querySelectorAll('.nav').forEach(btn => btn.addEventListener('click', () => {
   document.querySelectorAll('.nav').forEach(x => x.classList.remove('active')); btn.classList.add('active');
   document.querySelectorAll('.view').forEach(x => x.classList.remove('active-view')); $(`${btn.dataset.view}-view`).classList.add('active-view');
-  const premium = btn.dataset.view === 'premium';
-  $('page-title').textContent = premium ? 'Find the name before it matters.' : 'Find your name everywhere.';
-  $('page-copy').textContent = premium ? 'Brandability signals with conservative registration checks.' : 'One word. Every worthwhile extension. No tab circus.';
+  const copy = {
+    bulk: ['Find your name everywhere.', 'One word. Every worthwhile extension. No tab circus.'],
+    premium: ['Find the name before it matters.', 'Brandability signals with conservative registration checks.'],
+    help: ['Help, policies, and product details.', 'Everything you need to use Domain Scout AI with confidence.']
+  }[btn.dataset.view];
+  $('page-title').textContent = copy[0];
+  $('page-copy').textContent = copy[1];
   $('results-section').classList.add('hidden');
 }));
 
@@ -87,6 +94,12 @@ $('prev-page').addEventListener('click', () => premiumSearch(state.premiumMode, 
 document.querySelectorAll('.filter').forEach(btn => btn.addEventListener('click', () => { document.querySelectorAll('.filter').forEach(x=>x.classList.remove('active')); btn.classList.add('active'); state.filter=btn.dataset.filter; render(); }));
 $('sort').addEventListener('input', render);
 $('result-list').addEventListener('click', e => { const btn=e.target.closest('[data-url]'); if(btn) window.domainAPI.openExternal(btn.dataset.url); });
+document.body.addEventListener('click', e => {
+  const button = e.target.closest('[data-public-link]');
+  if (!button) return;
+  const url = state.publicLinks[button.dataset.publicLink];
+  if (url) window.domainAPI.openExternal(url).catch(() => toast('Could not open that link.'));
+});
 $('export').addEventListener('click', () => {
   if (!state.all.length) return toast('Nothing to export yet.');
   const csv = ['Domain,Status,Exact price,Brand score,Reason', ...state.all.map(x => `"${x.domain}",${x.status},"Not verified",${x.score},"${x.reason}"`)].join('\n');
