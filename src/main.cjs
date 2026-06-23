@@ -4,6 +4,7 @@ const { TLDS, normalizeLabel, isValidLabel, estimatePrice, scoreDomain, scoreRea
 const { verifyDomain } = require('./availability.cjs');
 
 const MAX_CONCURRENCY = 10;
+const NAMECHEAP_AFFILIATE_BASE = 'https://namecheap.pxf.io/c/7430137/1632743/5618';
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -34,6 +35,7 @@ async function checkDomain(item) {
   const tld = rest.join('.');
   const verification = await verifyDomain(domain);
   const baselinePrice = estimatePrice(tld);
+  const namecheapDestination = `https://www.namecheap.com/domains/registration/results/?domain=${encodeURIComponent(domain)}`;
   return {
     domain, label, tld, status: verification.status,
     price: null, priceVerified: false, baselinePrice,
@@ -41,8 +43,7 @@ async function checkDomain(item) {
     source: verification.source, confidence: verification.confidence,
     score: scoreDomain(label, tld), reason: scoreReason(label, tld),
     links: {
-      godaddy: `https://www.godaddy.com/domainsearch/find?domainToCheck=${encodeURIComponent(domain)}`,
-      namecheap: `https://www.namecheap.com/domains/registration/results/?domain=${encodeURIComponent(domain)}`
+      namecheap: `${NAMECHEAP_AFFILIATE_BASE}?u=${encodeURIComponent(namecheapDestination)}`
     }
   };
 }
@@ -62,7 +63,7 @@ app.whenReady().then(() => {
     return checked.filter(x => x.status !== 'registered');
   });
   ipcMain.handle('open-external', (_event, url) => {
-    if (/^https:\/\/(www\.)?(godaddy\.com|namecheap\.com)\//i.test(url)) return shell.openExternal(url);
+    if (/^https:\/\/(www\.)?namecheap\.com\//i.test(url) || /^https:\/\/namecheap\.pxf\.io\//i.test(url)) return shell.openExternal(url);
     throw new Error('Blocked unsafe link.');
   });
   createWindow();

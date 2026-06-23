@@ -74,7 +74,7 @@ function render() {
       <div class="badge ${row.status}">${row.status === 'likely_available' ? 'likely available' : row.status}</div>
       <div class="price"><b>Price unknown</b><small>Check exact registrar price</small></div>
       <div class="score" title="${row.source} · ${row.confidence}"><div class="score-ring">${row.score}</div><span>BRAND<br>SCORE</span></div>
-      <div class="buy-actions"><button class="buy" data-url="${row.links.godaddy}" ${row.status === 'registered' ? 'disabled' : ''}>GoDaddy ↗</button><button class="buy" data-url="${row.links.namecheap}" ${row.status === 'registered' ? 'disabled' : ''}>Namecheap ↗</button></div>
+      <div class="buy-actions"><button class="buy" data-url="${row.links.namecheap}" ${row.status === 'registered' ? 'disabled' : ''}>Check Price &amp; Buy ↗</button></div>
     </article>`;
   }).join('');
 }
