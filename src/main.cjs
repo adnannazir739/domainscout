@@ -28,38 +28,6 @@ const FALLBACK_AFFILIATE_ADS = Object.freeze({
       text: 'Check exact prices and register securely with Namecheap.',
       button: 'Check Price',
       url: NAMECHEAP_AFFILIATE_BASE
-    },
-    {
-      slot: 'top',
-      label: 'Affiliate partner',
-      title: 'Found a good name? Secure it before someone else does.',
-      text: 'Domain Scout AI may earn a commission when you buy through our Namecheap partner link.',
-      button: 'Search on Namecheap',
-      url: NAMECHEAP_AFFILIATE_BASE
-    },
-    {
-      slot: 'bulk',
-      label: 'Affiliate partner',
-      title: 'Compare your final picks at checkout',
-      text: 'Use Namecheap to confirm exact domain pricing, premium fees, and availability before buying.',
-      button: 'Open Namecheap',
-      url: NAMECHEAP_AFFILIATE_BASE
-    },
-    {
-      slot: 'premium',
-      label: 'Affiliate partner',
-      title: 'Premium idea? Check the real price.',
-      text: 'Brand score is only a signal. Always confirm the final registrar price before purchase.',
-      button: 'Check Price',
-      url: NAMECHEAP_AFFILIATE_BASE
-    },
-    {
-      slot: 'help',
-      label: 'Affiliate disclosure',
-      title: 'How Domain Scout AI stays free',
-      text: 'Registrar links may be affiliate links. You pay the same price; we may earn a commission.',
-      button: 'Read disclosure',
-      url: PUBLIC_LINKS.affiliate
     }
   ]
 });
@@ -131,7 +99,7 @@ async function checkForUpdates() {
 function normalizeAffiliateAds(manifest) {
   const source = manifest && typeof manifest === 'object' ? manifest : FALLBACK_AFFILIATE_ADS;
   if (source.enabled === false) return { enabled: false, ads: [] };
-  const allowedSlots = new Set(['sidebar', 'top', 'bulk', 'premium', 'help']);
+  const allowedSlots = new Set(['sidebar']);
   const ads = Array.isArray(source.ads) ? source.ads : [];
   return {
     enabled: true,

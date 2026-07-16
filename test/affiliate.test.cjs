@@ -19,11 +19,11 @@ test('affiliate ad slots are present and clearly controlled by approved links', 
   const preload = fs.readFileSync(require.resolve('../src/preload.cjs'), 'utf8');
   const renderer = fs.readFileSync(require.resolve('../src/renderer.js'), 'utf8');
   const html = fs.readFileSync(require.resolve('../src/index.html'), 'utf8');
-  for (const slot of ['sidebar', 'top', 'bulk', 'premium', 'help']) {
-    assert.match(html, new RegExp(`data-ad-slot="${slot}"`));
-  }
+  assert.match(html, /data-ad-slot="sidebar"/);
+  for (const removedSlot of ['top', 'bulk', 'premium', 'help']) assert.doesNotMatch(html, new RegExp(`data-ad-slot="${removedSlot}"`));
   assert.match(main, /https:\/\/domainscout\.vortixvpn\.com\/ads\.json/);
   assert.match(main, /FALLBACK_AFFILIATE_ADS/);
+  assert.match(main, /new Set\(\['sidebar'\]\)/);
   assert.match(preload, /getAffiliateAds/);
   assert.match(renderer, /renderAffiliateAds/);
   assert.match(renderer, /data-ad-url/);

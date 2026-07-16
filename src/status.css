@@ -15,7 +15,6 @@
 .about-strip small { display: block; }
 .about-strip p { margin: 0; }
 .ad-slot { margin: 14px 0; }
-.ad-slot-top { margin: -18px 0 24px; }
 .ad-slot-sidebar { margin: 28px 0 18px; }
 .affiliate-ad { border: 1px solid #2d443b; border-radius: 14px; padding: 18px; background: linear-gradient(135deg,#13231e,#0b1714); box-shadow: inset 0 1px 0 #ffffff08; }
 .affiliate-ad span { display: inline-block; color: var(--lime); font-size: 9px; letter-spacing: 1.5px; font-weight: 800; text-transform: uppercase; margin-bottom: 8px; }

@@ -48,9 +48,9 @@ test('update manifest points to the official support update section', () => {
 test('affiliate ad manifest uses only approved partner and official links', () => {
   const manifest = JSON.parse(fs.readFileSync(path.join(website, 'ads.json'), 'utf8'));
   assert.equal(manifest.enabled, true);
-  assert.ok(manifest.ads.length >= 5);
+  assert.equal(manifest.ads.length, 1);
   for (const ad of manifest.ads) {
-    assert.ok(['sidebar', 'top', 'bulk', 'premium', 'help'].includes(ad.slot));
+    assert.equal(ad.slot, 'sidebar');
     assert.ok(/^https:\/\/(namecheap\.pxf\.io|domainscout\.vortixvpn\.com)\//.test(ad.url));
     assert.ok(ad.label && ad.title && ad.text && ad.button);
   }
