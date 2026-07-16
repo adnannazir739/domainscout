@@ -17,11 +17,13 @@
       <button class="nav" data-view="premium"><span>✦</span> AI premium search</button>
       <button class="nav" data-view="help"><span>?</span> Help &amp; legal</button>
     </nav>
+    <div class="ad-slot ad-slot-sidebar hidden" data-ad-slot="sidebar"></div>
     <div class="aside-note"><b>Live checks</b><p>Availability is verified through public RDAP registration data.</p><span class="live-dot"></span> Connected when online</div>
     <div class="version">DOMAIN SCOUT <span id="app-version">LOADING</span></div>
   </aside>
   <main>
     <header><div><span class="eyebrow">DOMAIN INTELLIGENCE</span><h1 id="page-title">Find your name everywhere.</h1><p id="page-copy">One word. Every worthwhile extension. No tab circus.</p></div><div class="status-pill"><span></span> RDAP live</div></header>
+    <div class="ad-slot ad-slot-top hidden" data-ad-slot="top"></div>
 
     <section id="bulk-view" class="view active-view">
       <div class="search-panel">
@@ -30,6 +32,7 @@
         <div class="hint">Enter only the main word — we’ll test <b id="tld-count">50</b> extensions at once.</div>
         <details><summary>Choose extensions</summary><div id="tld-picker" class="chips"></div></details>
       </div>
+      <div class="ad-slot hidden" data-ad-slot="bulk"></div>
     </section>
 
     <section id="premium-view" class="view">
@@ -43,17 +46,20 @@
           <button id="premium-random" class="secondary">Random premium search <span>↗</span></button>
         </div>
       </div>
+      <div class="ad-slot hidden" data-ad-slot="premium"></div>
     </section>
 
     <section id="help-view" class="view">
       <div class="help-grid">
         <article class="help-card help-featured"><span class="eyebrow">SUPPORT</span><h2>Need a hand?</h2><p>Installation questions, incorrect domain results, accessibility issues, or general product help.</p><button class="help-link primary" data-public-link="support">Open Help Center <span>→</span></button></article>
+        <article class="help-card"><span class="help-icon">↑</span><h3>App updates</h3><p>Check whether a newer Microsoft Store version is available.</p><button id="check-updates" class="text-link">Check for updates →</button></article>
         <article class="help-card"><span class="help-icon">↗</span><h3>Product website</h3><p>Features, release information, and official product details.</p><button class="text-link" data-public-link="website">Visit website →</button></article>
         <article class="help-card"><span class="help-icon">@</span><h3>Contact us</h3><p>Email the Domain Scout AI support team.</p><button class="text-link" data-public-link="contact">contact@vortixvpn.com →</button></article>
         <article class="help-card"><span class="help-icon">◈</span><h3>Privacy policy</h3><p>Learn what information is processed during domain searches.</p><button class="text-link" data-public-link="privacy">Read privacy policy →</button></article>
         <article class="help-card"><span class="help-icon">§</span><h3>Terms of use</h3><p>Important limitations concerning availability, prices, and brandability signals.</p><button class="text-link" data-public-link="terms">Read terms →</button></article>
         <article class="help-card"><span class="help-icon">◎</span><h3>Affiliate disclosure</h3><p>How registrar referrals support the development of this app.</p><button class="text-link" data-public-link="affiliate">Read disclosure →</button></article>
       </div>
+      <div class="ad-slot hidden" data-ad-slot="help"></div>
       <div class="about-strip"><div><span class="brand-mark">D</span><div><b>Domain Scout AI</b><small>Windows domain discovery</small></div></div><p>Version <b id="about-version">—</b></p></div>
     </section>
 

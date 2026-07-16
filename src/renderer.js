@@ -1,5 +1,6 @@
-const state = { all: [], filter: 'all', page: 0, premiumMode: null, premiumKeyword: '', publicLinks: {} };
+const state = { all: [], filter: 'all', page: 0, premiumMode: null, premiumKeyword: '', publicLinks: {}, affiliateAds: [] };
 const $ = id => document.getElementById(id);
+const UPDATE_CHECK_KEY = 'domainScoutLastUpdateCheck';
 
 function toast(message) {
   const old = document.querySelector('.toast'); if (old) old.remove();
@@ -8,12 +9,61 @@ function toast(message) {
 }
 
 async function init() {
-  const [tlds, appInfo] = await Promise.all([window.domainAPI.getTlds(), window.domainAPI.getAppInfo()]);
+  const [tlds, appInfo, affiliateAds] = await Promise.all([window.domainAPI.getTlds(), window.domainAPI.getAppInfo(), window.domainAPI.getAffiliateAds()]);
   state.publicLinks = appInfo.links;
+  state.affiliateAds = affiliateAds.enabled === false ? [] : affiliateAds.ads || [];
   $('app-version').textContent = `v${appInfo.version}`;
   $('about-version').textContent = appInfo.version;
   $('tld-count').textContent = tlds.length;
   $('tld-picker').innerHTML = tlds.map(x => `<label class="chip"><input type="checkbox" value="${x.tld}" checked> .${x.tld}</label>`).join('');
+  renderAffiliateAds();
+  scheduleUpdateCheck();
+}
+
+function escapeHtml(value) {
+  return String(value || '').replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[char]));
+}
+
+function renderAffiliateAds() {
+  document.querySelectorAll('[data-ad-slot]').forEach(slot => {
+    const ad = state.affiliateAds.find(item => item.slot === slot.dataset.adSlot);
+    slot.classList.toggle('hidden', !ad);
+    if (!ad) {
+      slot.innerHTML = '';
+      return;
+    }
+    slot.innerHTML = `<article class="affiliate-ad">
+      <span>${escapeHtml(ad.label)}</span>
+      <h3>${escapeHtml(ad.title)}</h3>
+      <p>${escapeHtml(ad.text)}</p>
+      <button class="ad-button" data-ad-url="${escapeHtml(ad.url)}">${escapeHtml(ad.button)} →</button>
+    </article>`;
+  });
+}
+
+function shouldCheckForUpdates() {
+  const last = Number(localStorage.getItem(UPDATE_CHECK_KEY) || 0);
+  return !last || Date.now() - last > 24 * 60 * 60 * 1000;
+}
+
+async function checkForUpdates({ silent = false } = {}) {
+  try {
+    const update = await window.domainAPI.checkForUpdates();
+    localStorage.setItem(UPDATE_CHECK_KEY, String(Date.now()));
+    if (!update.updateAvailable) {
+      if (!silent) toast(`Domain Scout AI is up to date: v${update.currentVersion}`);
+      return;
+    }
+    const message = `Update available: v${update.latestVersion}. Click to open update page.`;
+    if (confirm(message)) await window.domainAPI.openExternal(update.updateUrl || state.publicLinks.updates || state.publicLinks.support);
+  } catch (error) {
+    if (!silent) toast(error.message || 'Could not check for updates.');
+  }
+}
+
+function scheduleUpdateCheck() {
+  if (!shouldCheckForUpdates()) return;
+  setTimeout(() => checkForUpdates({ silent: true }), 1800);
 }
 
 document.querySelectorAll('.nav').forEach(btn => btn.addEventListener('click', () => {
@@ -95,6 +145,11 @@ document.querySelectorAll('.filter').forEach(btn => btn.addEventListener('click'
 $('sort').addEventListener('input', render);
 $('result-list').addEventListener('click', e => { const btn=e.target.closest('[data-url]'); if(btn) window.domainAPI.openExternal(btn.dataset.url); });
 document.body.addEventListener('click', e => {
+  const adButton = e.target.closest('[data-ad-url]');
+  if (adButton) {
+    window.domainAPI.openExternal(adButton.dataset.adUrl).catch(() => toast('Could not open that partner link.'));
+    return;
+  }
   const button = e.target.closest('[data-public-link]');
   if (!button) return;
   const url = state.publicLinks[button.dataset.publicLink];
@@ -105,5 +160,8 @@ $('export').addEventListener('click', () => {
   const csv = ['Domain,Status,Exact price,Brand score,Reason', ...state.all.map(x => `"${x.domain}",${x.status},"Not verified",${x.score},"${x.reason}"`)].join('\n');
   const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'})); a.download='domain-scout-results.csv'; a.click(); URL.revokeObjectURL(a.href);
 });
+
+const updateButton = $('check-updates');
+if (updateButton) updateButton.addEventListener('click', () => checkForUpdates({ silent: false }));
 
 init().catch(() => toast('The app could not initialize.'));

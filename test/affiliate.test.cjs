@@ -14,6 +14,21 @@ test('affiliate relationship is disclosed in the app', () => {
   assert.match(html, /Namecheap links are affiliate links/);
 });
 
+test('affiliate ad slots are present and clearly controlled by approved links', () => {
+  const main = fs.readFileSync(require.resolve('../src/main.cjs'), 'utf8');
+  const preload = fs.readFileSync(require.resolve('../src/preload.cjs'), 'utf8');
+  const renderer = fs.readFileSync(require.resolve('../src/renderer.js'), 'utf8');
+  const html = fs.readFileSync(require.resolve('../src/index.html'), 'utf8');
+  for (const slot of ['sidebar', 'top', 'bulk', 'premium', 'help']) {
+    assert.match(html, new RegExp(`data-ad-slot="${slot}"`));
+  }
+  assert.match(main, /https:\/\/domainscout\.vortixvpn\.com\/ads\.json/);
+  assert.match(main, /FALLBACK_AFFILIATE_ADS/);
+  assert.match(preload, /getAffiliateAds/);
+  assert.match(renderer, /renderAffiliateAds/);
+  assert.match(renderer, /data-ad-url/);
+});
+
 test('pending GoDaddy promotion is not shown', () => {
   const main = fs.readFileSync(require.resolve('../src/main.cjs'), 'utf8');
   const renderer = fs.readFileSync(require.resolve('../src/renderer.js'), 'utf8');

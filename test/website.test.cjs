@@ -36,3 +36,22 @@ test('production contact and canonical domain are configured', () => {
   assert.match(index, /contact@vortixvpn\.com/);
   assert.match(privacy, /contact@vortixvpn\.com/);
 });
+
+test('update manifest points to the official support update section', () => {
+  const manifest = JSON.parse(fs.readFileSync(path.join(website, 'version.json'), 'utf8'));
+  assert.match(manifest.latestVersion, /^\d+\.\d+\.\d+$/);
+  assert.equal(manifest.updateUrl, 'https://domainscout.vortixvpn.com/support#updates');
+  const support = fs.readFileSync(path.join(website, 'support.html'), 'utf8');
+  assert.match(support, /id="updates"/);
+});
+
+test('affiliate ad manifest uses only approved partner and official links', () => {
+  const manifest = JSON.parse(fs.readFileSync(path.join(website, 'ads.json'), 'utf8'));
+  assert.equal(manifest.enabled, true);
+  assert.ok(manifest.ads.length >= 5);
+  for (const ad of manifest.ads) {
+    assert.ok(['sidebar', 'top', 'bulk', 'premium', 'help'].includes(ad.slot));
+    assert.ok(/^https:\/\/(namecheap\.pxf\.io|domainscout\.vortixvpn\.com)\//.test(ad.url));
+    assert.ok(ad.label && ad.title && ad.text && ad.button);
+  }
+});
