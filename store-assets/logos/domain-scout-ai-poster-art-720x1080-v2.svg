@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="720" height="1080" viewBox="0 0 720 1080" xmlns="http://www.w3.org/2000/svg">
+  
+  <defs>
+    <radialGradient id="bg" cx="62%" cy="20%" r="92%">
+      <stop offset="0%" stop-color="#1e3a2a"/>
+      <stop offset="46%" stop-color="#07110f"/>
+      <stop offset="100%" stop-color="#020504"/>
+    </radialGradient>
+    <linearGradient id="lime" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#e4ff7a"/>
+      <stop offset="1" stop-color="#63e6a4"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#12261f" stop-opacity="0.96"/>
+      <stop offset="1" stop-color="#06100d" stop-opacity="0.98"/>
+    </linearGradient>
+    <filter id="softShadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="26" stdDeviation="36" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="12" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <rect width="720" height="1080" fill="url(#bg)"/>
+  <circle cx="580" cy="130" r="330" fill="#c8ff61" opacity="0.07"/>
+  <circle cx="95" cy="910" r="240" fill="#63e6a4" opacity="0.075"/>
+  
+  <g opacity="0.38">
+    <line x1="158.4" y1="302.40000000000003" x2="273.6" y2="216" stroke="#7cffac" stroke-width="1.8" opacity="0.45"/><line x1="273.6" y1="216" x2="417.59999999999997" y2="280.8" stroke="#7cffac" stroke-width="1.8" opacity="0.45"/><line x1="417.59999999999997" y1="280.8" x2="547.2" y2="194.4" stroke="#7cffac" stroke-width="1.8" opacity="0.45"/><line x1="158.4" y1="302.40000000000003" x2="187.20000000000002" y2="518.4" stroke="#7cffac" stroke-width="1.8" opacity="0.45"/><line x1="187.20000000000002" y1="518.4" x2="360" y2="475.2" stroke="#7cffac" stroke-width="1.8" opacity="0.45"/><line x1="360" y1="475.2" x2="518.4" y2="561.6" stroke="#7cffac" stroke-width="1.8" opacity="0.45"/><line x1="360" y1="475.2" x2="288" y2="712.8000000000001" stroke="#7cffac" stroke-width="1.8" opacity="0.45"/><line x1="518.4" y1="561.6" x2="475.20000000000005" y2="777.6" stroke="#7cffac" stroke-width="1.8" opacity="0.45"/><line x1="288" y1="712.8000000000001" x2="475.20000000000005" y2="777.6" stroke="#7cffac" stroke-width="1.8" opacity="0.45"/><line x1="417.59999999999997" y1="280.8" x2="360" y2="475.2" stroke="#7cffac" stroke-width="1.8" opacity="0.45"/>
+    <circle cx="158.4" cy="302.40000000000003" r="6.3" fill="#63e6a4" opacity="0.9"/><circle cx="273.6" cy="216" r="4.5" fill="#c8ff61" opacity="0.9"/><circle cx="417.59999999999997" cy="280.8" r="4.5" fill="#63e6a4" opacity="0.9"/><circle cx="547.2" cy="194.4" r="6.3" fill="#c8ff61" opacity="0.9"/><circle cx="187.20000000000002" cy="518.4" r="4.5" fill="#63e6a4" opacity="0.9"/><circle cx="360" cy="475.2" r="4.5" fill="#c8ff61" opacity="0.9"/><circle cx="518.4" cy="561.6" r="6.3" fill="#63e6a4" opacity="0.9"/><circle cx="288" cy="712.8000000000001" r="4.5" fill="#c8ff61" opacity="0.9"/><circle cx="475.20000000000005" cy="777.6" r="4.5" fill="#63e6a4" opacity="0.9"/>
+  </g>
+  <g filter="url(#softShadow)">
+    <rect x="72" y="175" width="576" height="710" rx="64" fill="url(#glass)" stroke="#325948" stroke-width="5"/>
+    <circle cx="360" cy="428" r="174" fill="none" stroke="#c8ff61" stroke-width="15"/>
+    <line x1="462" y1="538" x2="558" y2="634" stroke="#c8ff61" stroke-width="28" stroke-linecap="round"/>
+    <line x1="462" y1="538" x2="558" y2="634" stroke="#63e6a4" stroke-width="11" stroke-linecap="round" opacity="0.85"/>
+    <text x="360" y="402" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="58" font-weight="900" fill="#f1f6ef">www</text>
+    <text x="360" y="472" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="78" font-weight="900" fill="url(#lime)">.AI</text>
+    <g><rect x="214" y="528" width="106.8" height="46.800000000000004" rx="23.400000000000002" fill="#14251f" stroke="#315344" stroke-width="2"/>
+      <text x="267.4" y="559.2" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="26" font-weight="800" fill="#c8ff61">.com</text><rect x="334.8" y="528" width="88.6" height="46.800000000000004" rx="23.400000000000002" fill="#14251f" stroke="#315344" stroke-width="2"/>
+      <text x="379.1" y="559.2" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="26" font-weight="800" fill="#c8ff61">.io</text></g>
+    <text x="360" y="720" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="58" font-weight="900" fill="#f1f6ef" letter-spacing="-2">Domain Scout AI</text>
+    <text x="360" y="770" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="800" fill="#c8ff61" letter-spacing="4">FIND BETTER DOMAINS</text>
+  </g>
+  <text x="360" y="965" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="28" font-weight="700" fill="#9bb4ac">Bulk search - AI ideas - Brand scores</text>
+</svg>

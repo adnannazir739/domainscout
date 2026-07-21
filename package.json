@@ -1,6 +1,6 @@
 {
   "name": "domain-scout-ai",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Windows desktop app for bulk domain availability and premium-name discovery",
   "main": "src/main.cjs",
   "author": "Domain Scout AI",
@@ -26,12 +26,15 @@
       "package.json"
     ],
     "win": {
-      "target": "nsis"
+      "target": "nsis",
+      "icon": "build/icon.ico"
     },
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
-      "createDesktopShortcut": true
+      "createDesktopShortcut": true,
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico"
     }
   }
 }
